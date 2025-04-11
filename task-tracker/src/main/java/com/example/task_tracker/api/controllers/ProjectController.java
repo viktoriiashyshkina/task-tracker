@@ -47,26 +47,6 @@ public class ProjectController {
                 .collect(Collectors.toList());
 
     }
-//
-//    @PostMapping(CREATE_PROJECT)
-//    public ProjectDto createProject(@RequestParam String projectName) {
-//        if (projectName.trim().isEmpty()) {
-//            throw new BadRequestException("Name can't be empty");
-//        }
-//
-//        projectRepository.findByName(projectName)
-//                .ifPresent(project -> {
-//                    throw new BadRequestException(String.format("Project %s already exists.", projectName));
-//                });
-//        ProjectEntity project = projectRepository.saveAndFlush(
-//                ProjectEntity.builder()
-//                        .name(projectName
-//                        )
-//                        .build()
-//        );
-//
-//        return projectDtoFactory.makeProjectDto(project);
-//    }
 
     @PutMapping(CREATE_OR_UPDATE_PROJECT)
     public ProjectDto createOrUpdateProject(
@@ -98,7 +78,23 @@ public class ProjectController {
         return projectDtoFactory.makeProjectDto(project);
     }
 
-//
+
+    @DeleteMapping(DELETE_PROJECT)
+    public AskDto deleteProject(@PathVariable("project_id") Long projectId) {
+
+        getProjectOrThrowException(projectId);
+        projectRepository.deleteById(projectId);
+        return AskDto.makeDefault(true);
+    }
+
+    private ProjectEntity getProjectOrThrowException(Long projectId) {
+      return projectRepository
+                .findById(projectId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Project with ID %d doesn't exist", projectId)));
+    }
+
+    //
 //    @PatchMapping(EDIT_PROJECT)
 //    public ProjectDto editProject(
 //            @PathVariable("project_id") Long projectId,
@@ -117,18 +113,24 @@ public class ProjectController {
 //        return projectDtoFactory.makeProjectDto(project);
 //    }
 
-    @DeleteMapping(DELETE_PROJECT)
-    public AskDto deleteProject(@PathVariable("project_id") Long projectId) {
-
-        getProjectOrThrowException(projectId);
-        projectRepository.deleteById(projectId);
-        return AskDto.makeDefault(true);
-    }
-
-    private ProjectEntity getProjectOrThrowException(Long projectId) {
-      return projectRepository
-                .findById(projectId)
-                .orElseThrow(() -> new NotFoundException(
-                        String.format("Project with ID %d doesn't exist", projectId)));
-    }
+    //
+//    @PostMapping(CREATE_PROJECT)
+//    public ProjectDto createProject(@RequestParam String projectName) {
+//        if (projectName.trim().isEmpty()) {
+//            throw new BadRequestException("Name can't be empty");
+//        }
+//
+//        projectRepository.findByName(projectName)
+//                .ifPresent(project -> {
+//                    throw new BadRequestException(String.format("Project %s already exists.", projectName));
+//                });
+//        ProjectEntity project = projectRepository.saveAndFlush(
+//                ProjectEntity.builder()
+//                        .name(projectName
+//                        )
+//                        .build()
+//        );
+//
+//        return projectDtoFactory.makeProjectDto(project);
+//    }
 }
