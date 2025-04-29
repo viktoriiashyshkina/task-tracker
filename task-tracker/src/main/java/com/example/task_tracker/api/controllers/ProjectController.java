@@ -1,6 +1,6 @@
 package com.example.task_tracker.api.controllers;
 
-import com.example.task_tracker.api.dto.AskDto;
+import com.example.task_tracker.api.dto.AckDto;
 import com.example.task_tracker.api.dto.ProjectDto;
 import com.example.task_tracker.api.exeptions.BadRequestException;
 import com.example.task_tracker.api.exeptions.NotFoundException;
@@ -80,11 +80,11 @@ public class ProjectController {
 
 
     @DeleteMapping(DELETE_PROJECT)
-    public AskDto deleteProject(@PathVariable("project_id") Long projectId) {
+    public AckDto deleteProject(@PathVariable("project_id") Long projectId) {
 
         getProjectOrThrowException(projectId);
         projectRepository.deleteById(projectId);
-        return AskDto.makeDefault(true);
+        return AckDto.makeDefault(true);
     }
 
     private ProjectEntity getProjectOrThrowException(Long projectId) {
