@@ -4,11 +4,11 @@ package com.example.task_tracker.store.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Setter
 @Getter
@@ -26,16 +26,15 @@ public class ProjectEntity {
     @Column(unique = true)
     private String name;
 
-    @Builder.Default
-    private Instant updatedAt = Instant.now();
+    @UpdateTimestamp
+    private Instant updatedAt;
 
     @CreationTimestamp
-    private Instant createAt = Instant.now();
+    private Instant createAt;
 
-    @Builder.Default
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @Builder.Default
     private List<TaskStateEntity> taskStates = new ArrayList<>();
-
-
 }
+

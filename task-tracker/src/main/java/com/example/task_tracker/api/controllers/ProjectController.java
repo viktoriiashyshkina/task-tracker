@@ -94,43 +94,4 @@ public class ProjectController {
                         String.format("Project with ID %d doesn't exist", projectId)));
     }
 
-    //
-//    @PatchMapping(EDIT_PROJECT)
-//    public ProjectDto editProject(
-//            @PathVariable("project_id") Long projectId,
-//            @RequestParam String projectName){
-//
-//        ProjectEntity project = getProjectOrThrowException(projectId);
-//
-//        projectRepository.findByName(projectName)
-//                .filter(anotherProject -> !Objects.equals(anotherProject.getId(), projectId))
-//                .ifPresent(anotherProject -> {
-//                    throw new BadRequestException(String.format("Project %s already exists.", projectName));
-//                });
-//        project.setName(projectName);
-//        project = projectRepository.saveAndFlush(project);
-//
-//        return projectDtoFactory.makeProjectDto(project);
-//    }
-
-    //
-//    @PostMapping(CREATE_PROJECT)
-//    public ProjectDto createProject(@RequestParam String projectName) {
-//        if (projectName.trim().isEmpty()) {
-//            throw new BadRequestException("Name can't be empty");
-//        }
-//
-//        projectRepository.findByName(projectName)
-//                .ifPresent(project -> {
-//                    throw new BadRequestException(String.format("Project %s already exists.", projectName));
-//                });
-//        ProjectEntity project = projectRepository.saveAndFlush(
-//                ProjectEntity.builder()
-//                        .name(projectName
-//                        )
-//                        .build()
-//        );
-//
-//        return projectDtoFactory.makeProjectDto(project);
-//    }
 }
